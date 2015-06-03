@@ -62,6 +62,23 @@
 		</dependency>
 
 		<!-- Third-party dependencies -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>18.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20131018</version>
+		</dependency>
 
 		<!-- Test scope dependencies -->
 	</dependencies>
@@ -73,7 +90,7 @@
 				<artifactId>license-maven-plugin</artifactId>
 				<configuration>
 					<licenseName>bsd_2</licenseName>
-					<organizationName>Blood Brothers 2 Wiki</organizationName>
+					<organizationName>Blood Brothers 2 Wiki Members</organizationName>
 					<projectName>Blood Brothers 2 Converters.</projectName>
 				</configuration>
 			</plugin>
