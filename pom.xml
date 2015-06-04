@@ -94,6 +94,23 @@
 					<projectName>Blood Brothers 2 Converters.</projectName>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<id>my-execution</id>
+						<phase>package</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>net.bb2.Main</mainClass>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
