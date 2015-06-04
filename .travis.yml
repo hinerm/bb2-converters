@@ -1,12 +1,5 @@
 language: java
 
-before_script:
-  - "gem install travis-artifacts"
-
 install: mvn clean install
-
-# Mark xls as build artifact
-after_success:
-  - "travis-artifacts upload --path target/*.xls"
 
 branches: master
