@@ -33,6 +33,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -43,6 +44,7 @@ import jxl.Workbook;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.format.CellFormat;
+import jxl.read.biff.BiffException;
 import jxl.write.Label;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
@@ -52,38 +54,81 @@ import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
 import org.json.JSONObject;
+import org.scijava.log.LogService;
+import org.scijava.plugin.Parameter;
 
 public abstract class AbstractJSONtoWikiConverter implements
 	JSONtoWikiConverter
 {
 
 	public static final String DELIM = "\t";
+	public static final String OUTPUT = "bb2.xls";
+
+	@Parameter
+	private LogService logService;
 
 	@Override
 	public void run() throws MalformedURLException, IOException {
+		File wbLoc = new File(OUTPUT);
+		Workbook wb = null;
+		try {
+			wb = Workbook.getWorkbook(wbLoc);
+		}
+		catch (FileNotFoundException exc) {
+			// No problem - workbook didn't exist
+		}
+		catch (BiffException exc) {
+			logService.error("Problem reading existing XLS file", exc);
+		}
+
 		final WritableWorkbook workbook =
-			Workbook.createWorkbook(new File("bb2.xls"));
+			wb == null ? Workbook.createWorkbook(wbLoc) : Workbook.createWorkbook(
+				wbLoc, wb);
 		try {
 			initHeaders(workbook, getColumnHeaders());
-
-			int row = 1;
-
-			for (final String url : getURLs()) {
-				final String page = Resources.toString(new URL(url), Charsets.UTF_8);
-
-				final JSONObject obj = new JSONObject(page);
-				for (final String id : JSONObject.getNames(obj)) {
-					final Map<String, String> lines = convert(obj.getJSONObject(id));
-					writeXLS(workbook, lines, row++);
-				}
-			}
-
-			workbook.write();
-			workbook.close();
 		}
 		catch (final WriteException exc) {
 			throw new IOException(exc);
 		}
+
+		int row = 1;
+
+		for (final String url : getURLs()) {
+			String page = null;
+			try {
+				page = Resources.toString(new URL(url), Charsets.UTF_8);
+			}
+			catch (FileNotFoundException e) {
+				// if URL not found, log and continue
+				logService.error("WARNING: Page not found: " + page);
+				logService.error(e);
+				continue;
+			}
+
+			final JSONObject obj = new JSONObject(page);
+			for (final String id : JSONObject.getNames(obj)) {
+				final Map<String, String> lines = convert(obj.getJSONObject(id));
+				try {
+					writeXLS(workbook, lines, row++);
+				}
+				catch (RowsExceededException exc) {
+					throw new IOException(exc);
+				}
+				catch (WriteException exc) {
+					throw new IOException(exc);
+				}
+			}
+		}
+
+		workbook.write();
+
+		try {
+			workbook.close();
+		}
+		catch (WriteException exc) {
+			throw new IOException(exc);
+		}
+
 	}
 
 	protected void append(final StringBuilder sb, final String entry) {
@@ -91,9 +136,7 @@ public abstract class AbstractJSONtoWikiConverter implements
 		sb.append(DELIM);
 	}
 
-	protected String getField(final JSONObject json,
-		final String... ids)
-	{
+	protected String getField(final JSONObject json, final String... ids) {
 		String s;
 		if (ids.length == 0 || !json.has(ids[0]) ||
 			json.get(ids[0]).toString().equals("null"))
