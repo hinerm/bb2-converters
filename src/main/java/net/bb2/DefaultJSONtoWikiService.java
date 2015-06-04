@@ -29,6 +29,7 @@
 
 package net.bb2;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -48,6 +49,9 @@ public class DefaultJSONtoWikiService extends
 
 	@Override
 	public void doConversion() throws MalformedURLException, IOException {
+		final File out = new File(JSONtoWikiConverter.OUTPUT);
+		if (out.exists()) out.delete();
+
 		for (final JSONtoWikiConverter converter : getInstances()) {
 			converter.run();
 		}

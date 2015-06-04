@@ -38,6 +38,8 @@ import org.scijava.plugin.SingletonPlugin;
 
 public interface JSONtoWikiConverter extends SingletonPlugin {
 
+	public static final String OUTPUT = "bb2.xls";
+
 	void run() throws MalformedURLException, IOException;
 
 	/**

@@ -44,7 +44,11 @@ public class Main {
 	{
 		final Context c = new Context();
 		final JSONtoWikiService jws = c.service(JSONtoWikiService.class);
-		jws.doConversion();
-		c.dispose();
+		try {
+			jws.doConversion();
+		}
+		finally {
+			c.dispose();
+		}
 	}
 }

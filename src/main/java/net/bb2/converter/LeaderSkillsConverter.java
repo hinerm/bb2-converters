@@ -39,21 +39,21 @@ import org.json.JSONObject;
 import org.scijava.plugin.Plugin;
 
 @Plugin(type = JSONtoWikiConverter.class)
-public class GearConverter extends AbstractJSONtoWikiConverter {
+public class LeaderSkillsConverter extends AbstractJSONtoWikiConverter {
 
-	private final String GEAR = "gear";
+	private final String LEADER = "leader_skills";
 
 	@Override
 	public String[] getURLs() {
-		return new String[] { "http://www.bloodbrothers2.info/3816/Gear.json",
-			"http://www.bloodbrothers2.info/3816/new/Gear.json" };
+		return new String[] {
+			"http://www.bloodbrothers2.info/3816/LeaderSkill.json",
+			"http://www.bloodbrothers2.info/3816/new/LeaderSkill.json" };
 	}
 
 	@Override
 	public Map<String, String> getColumnHeaders() {
 		final Map<String, String> headers = new HashMap<String, String>();
-		headers.put(GEAR,
-			"Gear ID\tGear Name\tRarity\tSell Value\tHP\tATK\tDEF\tWIS");
+		headers.put(LEADER, "Leader Skill ID\tName\tDesc\tBuffId\tMagnitude");
 		return headers;
 	}
 
@@ -62,16 +62,15 @@ public class GearConverter extends AbstractJSONtoWikiConverter {
 		final Map<String, String> lines = new HashMap<String, String>();
 
 		final StringBuilder sb = new StringBuilder();
+
 		append(sb, getField(json, "Id"));
 		append(sb, getField(json, "Name"));
-		append(sb, getField(json, "Rarity"));
-		append(sb, getField(json, "SellValue"));
-		append(sb, getField(json, "Hp"));
-		append(sb, getField(json, "Attack"));
-		append(sb, getField(json, "Defense"));
-		append(sb, getField(json, "Wisdom"));
+		append(sb, getField(json, "Description"));
+		append(sb, getField(json, "BuffId"));
+		append(sb, getField(json, "Magnitude"));
 
-		lines.put(GEAR, sb.toString());
+		lines.put(LEADER, sb.toString());
 		return lines;
 	}
+
 }

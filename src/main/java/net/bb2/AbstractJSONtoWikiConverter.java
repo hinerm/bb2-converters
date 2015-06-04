@@ -62,22 +62,21 @@ public abstract class AbstractJSONtoWikiConverter implements
 {
 
 	public static final String DELIM = "\t";
-	public static final String OUTPUT = "bb2.xls";
 
 	@Parameter
 	private LogService logService;
 
 	@Override
 	public void run() throws MalformedURLException, IOException {
-		File wbLoc = new File(OUTPUT);
+		final File wbLoc = new File(OUTPUT);
 		Workbook wb = null;
 		try {
 			wb = Workbook.getWorkbook(wbLoc);
 		}
-		catch (FileNotFoundException exc) {
+		catch (final FileNotFoundException exc) {
 			// No problem - workbook didn't exist
 		}
-		catch (BiffException exc) {
+		catch (final BiffException exc) {
 			logService.error("Problem reading existing XLS file", exc);
 		}
 
@@ -98,9 +97,9 @@ public abstract class AbstractJSONtoWikiConverter implements
 			try {
 				page = Resources.toString(new URL(url), Charsets.UTF_8);
 			}
-			catch (FileNotFoundException e) {
+			catch (final FileNotFoundException e) {
 				// if URL not found, log and continue
-				logService.error("WARNING: Page not found: " + page);
+				logService.error("WARNING: URL not found: " + url);
 				logService.error(e);
 				continue;
 			}
@@ -109,12 +108,12 @@ public abstract class AbstractJSONtoWikiConverter implements
 			for (final String id : JSONObject.getNames(obj)) {
 				final Map<String, String> lines = convert(obj.getJSONObject(id));
 				try {
-					writeXLS(workbook, lines, row++);
+					if (lines.keySet().size() > 0) writeXLS(workbook, lines, row++);
 				}
-				catch (RowsExceededException exc) {
+				catch (final RowsExceededException exc) {
 					throw new IOException(exc);
 				}
-				catch (WriteException exc) {
+				catch (final WriteException exc) {
 					throw new IOException(exc);
 				}
 			}
@@ -125,7 +124,7 @@ public abstract class AbstractJSONtoWikiConverter implements
 		try {
 			workbook.close();
 		}
-		catch (WriteException exc) {
+		catch (final WriteException exc) {
 			throw new IOException(exc);
 		}
 
@@ -151,6 +150,19 @@ public abstract class AbstractJSONtoWikiConverter implements
 					s += ", " + json.get(ids[i]);
 				}
 			}
+		}
+		return s;
+	}
+
+	protected String getArrayField(final JSONObject json, final String id,
+		int index)
+	{
+		String s;
+		if (!json.has(id) || json.get(id).toString().equals("null")) {
+			s = " ";
+		}
+		else {
+			s = json.getJSONArray(id).get(index).toString();
 		}
 		return s;
 	}
