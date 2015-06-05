@@ -3,3 +3,12 @@ language: java
 install: mvn clean install
 
 branches: master
+
+deploy:
+  provider: releases
+  api_key: "a27f4430195026370bcf44796cac74d2f1605cd8"
+  file: "target/bb2.xls"
+  skip_cleanup: true
+  on:
+    tags: true
+
