@@ -6,13 +6,13 @@
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *
+ * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -44,6 +44,7 @@ public class SoulsConverter extends XLSWikiConverter {
 
 	private final String SOULS = "souls";
 	private final String SOUL_TABLE = "soul_table";
+	private final String SOUL_PAGES = "soul_pages";
 
 	@Override
 	public String[] getURLs() {
@@ -58,6 +59,7 @@ public class SoulsConverter extends XLSWikiConverter {
 				SOULS,
 				"Soul ID\tSoul Name\tRarity\tSell Value\tHP\tATK\tDEF\tWIS\tTotal\tAverage\tBalance");
 		headers.put(SOUL_TABLE, "Code for Soul Table");
+		headers.put(SOUL_PAGES, "Code for Soul Pages");
 		return headers;
 	}
 
@@ -79,7 +81,7 @@ public class SoulsConverter extends XLSWikiConverter {
 			final String affinity =
 				WikiUtils.getAffinity(getField(json, "Affinity").toString());
 
-			// Build Souls Database
+			// --- Build Souls Database ---
 			StringBuilder sb = new StringBuilder();
 
 			// Only output souls created after the removal of pink/blue souls
@@ -98,7 +100,7 @@ public class SoulsConverter extends XLSWikiConverter {
 
 			lines.put(SOULS, sb.toString());
 
-			// Build Wiki Soul Table code
+			// --- Build Wiki Soul Table code ---
 			sb = new StringBuilder();
 			// {{SoulTableRow|Andarion's Soul
 			// (L)|4|Cavalry|Darklander|342|132|334|99|907}}
@@ -106,15 +108,28 @@ public class SoulsConverter extends XLSWikiConverter {
 				race + "|" + hp + "|" + atk + "|" + def + "|" + wis + "|" + stats[0] +
 				"}}");
 			lines.put(SOUL_TABLE, sb.toString());
+
+			// -- Build Soul Page code --
+			sb = new StringBuilder();
+
+			sb.append("<div style=\"float:left;\">{{Souls" +
+					"| name = " + name +
+					"| image =" +
+					"|caption = Achieved from " + (name.contains("(L)") ? "absolving" : "evolving") + " [[ ]]" + // FIXME put in page link
+					"|HP = " + hp +
+					"|DEF = " + def +
+					"|ATK = " + atk +
+					"|WIS = " + wis +
+					"|rarity = " + rarity +
+					"|affinity = " + affinity +
+					"|race = " + race +
+					"}}</div>");
+			lines.put(SOUL_PAGES, sb.toString());
 		}
 		return lines;
 	}
 
 	/**
-	 * @param hp
-	 * @param atk
-	 * @param def
-	 * @param wis
 	 * @return Array containing the computed Total, Average, and Balance
 	 */
 	private String[] computeStats(final String hpStr, final String atkStr,
