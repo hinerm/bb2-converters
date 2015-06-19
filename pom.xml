@@ -67,6 +67,11 @@
 			<artifactId>guava</artifactId>
 			<version>18.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.gdata</groupId>
+			<artifactId>core</artifactId>
+			<version>1.47.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
@@ -79,6 +84,7 @@
 			<artifactId>json</artifactId>
 			<version>20131018</version>
 		</dependency>
+
 
 		<!-- Test scope dependencies -->
 	</dependencies>

@@ -46,5 +46,7 @@ public class Main {
 		finally {
 			c.dispose();
 		}
+
+		GoogleUploader.upload();
 	}
 }
