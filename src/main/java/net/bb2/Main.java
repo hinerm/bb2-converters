@@ -37,7 +37,7 @@ import org.scijava.Context;
 public class Main {
 
 	public static void main(final String... args) throws Exception {
-		final String id = args.length > 0 ? args[0] : "4052";
+		final String id = args.length > 0 ? args[0] : "4219";
 		final Context c = new Context();
 		final JSONtoWikiService jws = c.service(JSONtoWikiService.class);
 		try {
