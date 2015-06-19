@@ -67,7 +67,7 @@ public abstract class AbstractJSONtoWikiConverter implements
 	private LogService logService;
 
 	@Override
-	public void run() throws MalformedURLException, IOException {
+	public void run(final String baseURL) throws MalformedURLException, IOException {
 		final File wbLoc = new File(OUTPUT);
 		Workbook wb = null;
 		try {
@@ -95,7 +95,7 @@ public abstract class AbstractJSONtoWikiConverter implements
 		for (final String url : getURLs()) {
 			String page = null;
 			try {
-				page = Resources.toString(new URL(url), Charsets.UTF_8);
+				page = Resources.toString(new URL(baseURL + url), Charsets.UTF_8);
 			}
 			catch (final FileNotFoundException e) {
 				// if URL not found, log and continue

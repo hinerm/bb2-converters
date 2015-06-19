@@ -38,5 +38,5 @@ public interface JSONtoWikiService extends
 	SingletonService<JSONtoWikiConverter>
 {
 
-	void doConversion() throws MalformedURLException, IOException;
+	void doConversion(String baseURL) throws MalformedURLException, IOException;
 }

@@ -50,9 +50,7 @@ public class CommanderConverter extends AbstractJSONtoWikiConverter {
 
 	@Override
 	public String[] getURLs() {
-		return new String[] {
-			"http://www.bloodbrothers2.info/3816/Characters.json",
-			"http://www.bloodbrothers2.info/3816/new/Characters.json" };
+		return new String[] { "Characters.json", "new/Characters.json" };
 	}
 
 	@Override

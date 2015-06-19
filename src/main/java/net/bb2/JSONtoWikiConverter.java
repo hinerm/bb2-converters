@@ -40,7 +40,7 @@ public interface JSONtoWikiConverter extends SingletonPlugin {
 
 	public static final String OUTPUT = "bb2.xls";
 
-	void run() throws MalformedURLException, IOException;
+	void run(String baseURL) throws MalformedURLException, IOException;
 
 	/**
 	 * @return A list of URLs pointing to all JSON files this plugin operates on.

@@ -42,10 +42,11 @@ public class Main {
 	public static void main(final String... args) throws MalformedURLException,
 		IOException
 	{
+		String id = args.length > 0 ? args[0] : "3816";
 		final Context c = new Context();
 		final JSONtoWikiService jws = c.service(JSONtoWikiService.class);
 		try {
-			jws.doConversion();
+			jws.doConversion("http://www.bloodbrothers2.info/" + id + "/");
 		}
 		finally {
 			c.dispose();

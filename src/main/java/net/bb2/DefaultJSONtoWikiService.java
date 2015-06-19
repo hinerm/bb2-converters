@@ -48,12 +48,12 @@ public class DefaultJSONtoWikiService extends
 	}
 
 	@Override
-	public void doConversion() throws MalformedURLException, IOException {
+	public void doConversion(final String baseURL) throws MalformedURLException, IOException {
 		final File out = new File(JSONtoWikiConverter.OUTPUT);
 		if (out.exists()) out.delete();
 
 		for (final JSONtoWikiConverter converter : getInstances()) {
-			converter.run();
+			converter.run(baseURL);
 		}
 	}
 

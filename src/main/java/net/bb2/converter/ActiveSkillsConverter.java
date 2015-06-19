@@ -45,9 +45,7 @@ public class ActiveSkillsConverter extends AbstractJSONtoWikiConverter {
 
 	@Override
 	public String[] getURLs() {
-		return new String[] {
-			"http://www.bloodbrothers2.info/3816/ActiveSkill.json",
-			"http://www.bloodbrothers2.info/3816/new/ActiveSkill.json" };
+		return new String[] { "ActiveSkill.json", "new/ActiveSkill.json" };
 	}
 
 	@Override

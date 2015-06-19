@@ -48,8 +48,7 @@ public class SoulsConverter extends AbstractJSONtoWikiConverter {
 
 	@Override
 	public String[] getURLs() {
-		return new String[] { "http://www.bloodbrothers2.info/3816/Souls.json",
-			"http://www.bloodbrothers2.info/3816/new/Souls.json" };
+		return new String[] { "Souls.json", "new/Souls.json" };
 	}
 
 	@Override

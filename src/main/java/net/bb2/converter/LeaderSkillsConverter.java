@@ -46,8 +46,7 @@ public class LeaderSkillsConverter extends AbstractJSONtoWikiConverter {
 	@Override
 	public String[] getURLs() {
 		return new String[] {
-			"http://www.bloodbrothers2.info/3816/LeaderSkill.json",
-			"http://www.bloodbrothers2.info/3816/new/LeaderSkill.json" };
+			"LeaderSkill.json", "new/LeaderSkill.json" };
 	}
 
 	@Override

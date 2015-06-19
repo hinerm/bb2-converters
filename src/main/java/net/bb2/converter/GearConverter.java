@@ -45,8 +45,7 @@ public class GearConverter extends AbstractJSONtoWikiConverter {
 
 	@Override
 	public String[] getURLs() {
-		return new String[] { "http://www.bloodbrothers2.info/3816/Gear.json",
-			"http://www.bloodbrothers2.info/3816/new/Gear.json" };
+		return new String[] { "Gear.json", "new/Gear.json" };
 	}
 
 	@Override
