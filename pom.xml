@@ -13,7 +13,7 @@
 	<artifactId>wiki-converter</artifactId>
 	<version>0.1.2-SNAPSHOT</version>
 
-	<name>Blood Brothers 2 Converters</name>
+	<name>Blood Brothers 2 Wiki Helper</name>
 	<description>Conversion utility for the Blood Brothers 2 wiki.</description>
 	<inceptionYear>2015</inceptionYear>
 
