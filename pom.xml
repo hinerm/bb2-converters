@@ -11,7 +11,7 @@
 
 	<groupId>net.bb2</groupId>
 	<artifactId>wiki-converter</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.1</version>
 
 	<name>Blood Brothers 2 Converters</name>
 	<description>Conversion utility for the Blood Brothers 2 wiki.</description>
