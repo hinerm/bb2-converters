@@ -50,7 +50,10 @@ public abstract class AbstractJSONtoWikiConverter implements
 	private LogService logService;
 
 	@Override
-	public void run(final String baseURL) throws Exception {
+	public void preinit(final String outputDir) {	}
+
+	@Override
+	public void run(final String baseURL, final String outputDir) throws Exception {
 		init();
 
 		int row = 1;

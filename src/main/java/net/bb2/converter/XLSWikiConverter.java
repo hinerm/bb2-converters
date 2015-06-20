@@ -55,12 +55,7 @@ import org.scijava.plugin.Parameter;
 
 public abstract class XLSWikiConverter extends AbstractJSONtoWikiConverter {
 
-	public static final String OUTPUT = "bb2.xls";
-
-	static {
-		final File out = new File(OUTPUT);
-		if (out.exists()) out.delete();
-	}
+	private String output;
 
 	@Parameter
 	private LogService logService;
@@ -68,8 +63,15 @@ public abstract class XLSWikiConverter extends AbstractJSONtoWikiConverter {
 	private WritableWorkbook workbook = null;
 
 	@Override
+	public void preinit(final String outputDir) {
+		output = outputDir + File.separator + "bb2.xls";
+		final File out = new File(output);
+		if (out.exists()) out.delete();
+	}
+
+	@Override
 	public void init() throws MalformedURLException, IOException {
-		final File wbLoc = new File(OUTPUT);
+		final File wbLoc = new File(output);
 		Workbook wb = null;
 		try {
 			wb = Workbook.getWorkbook(wbLoc);

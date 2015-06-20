@@ -44,10 +44,14 @@ public class DefaultJSONtoWikiService extends
 	}
 
 	@Override
-	public void doConversion(final String baseURL) throws Exception {
+	public void doConversion(final String baseURL, final String outputDir) throws Exception {
 
 		for (final JSONtoWikiConverter converter : getInstances()) {
-			converter.run(baseURL);
+			converter.preinit(outputDir);
+		}
+
+		for (final JSONtoWikiConverter converter : getInstances()) {
+			converter.run(baseURL, outputDir);
 		}
 	}
 

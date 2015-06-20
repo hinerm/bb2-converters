@@ -36,7 +36,9 @@ import org.scijava.plugin.SingletonPlugin;
 
 public interface JSONtoWikiConverter extends SingletonPlugin {
 
-	void run(String baseURL) throws Exception;
+	void run(String baseURL, String outputDir) throws Exception;
+
+	void preinit(String outputDir);
 
 	/**
 	 * @return A list of URLs pointing to all JSON files this plugin operates on.

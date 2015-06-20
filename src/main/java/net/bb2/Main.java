@@ -29,22 +29,33 @@
 
 package net.bb2;
 
+import javafx.stage.Stage;
+
 import org.scijava.Context;
 
 /**
  * Entry point to perform conversion.
  */
+@SuppressWarnings("restriction")
 public class Main {
+
+	private static Stage stage;
+
+	public static void setStage(final Stage stage) {
+		Main.stage = stage;
+	}
 
 	public static void main(final String... args) throws Exception {
 		final String id = args.length > 0 ? args[0] : "4219";
+		final String outputDir = args.length > 1 ? args[1] : "";
 		final Context c = new Context();
 		final JSONtoWikiService jws = c.service(JSONtoWikiService.class);
 		try {
-			jws.doConversion("http://www.bloodbrothers2.info/" + id + "/");
+			jws.doConversion("http://www.bloodbrothers2.info/" + id + "/", outputDir);
 		}
 		finally {
 			c.dispose();
+			stage.close();
 		}
 	}
 }

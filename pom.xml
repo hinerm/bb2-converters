@@ -17,6 +17,12 @@
 	<description>Conversion utility for the Blood Brothers 2 wiki.</description>
 	<inceptionYear>2015</inceptionYear>
 
+	<properties>
+		<scijava.jvm.version>1.8</scijava.jvm.version>
+		<main-class>net.bb2.BB2App</main-class>
+		<jfxName>BB2WikiHelper</jfxName>
+	</properties>
+
 	<licenses>
 		<license>
 			<name>Simplified BSD License</name>
@@ -85,6 +91,25 @@
 
 	<build>
 		<plugins>
+      <!--
+      JavaFX Maven plugin -
+      https://github.com/javafx-maven-plugin/javafx-maven-plugin
+      Generate platform-specific application bundles using "mvn jfx:native"
+      -->
+      <plugin>
+        <groupId>com.zenjava</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>8.1.2</version>
+        <configuration>
+          <appName>${jfxName}</appName>
+          <identifier>${jfxName}</identifier>
+          <jfxMainAppJarName>${jfxName}.jar</jfxMainAppJarName>
+          <mainClass>${main-class}</mainClass>
+          <nativeReleaseVersion>${sanitizedVersion}</nativeReleaseVersion>
+          <verbose>true</verbose>
+        </configuration>
+      </plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
@@ -94,6 +119,7 @@
 					<projectName>Blood Brothers 2 Converters.</projectName>
 				</configuration>
 			</plugin>
+<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -108,9 +134,10 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>net.bb2.Main</mainClass>
+					<mainClass>net.bb2.BB2App</mainClass>
 				</configuration>
 			</plugin>
+-->
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.3</version>

@@ -35,5 +35,5 @@ public interface JSONtoWikiService extends
 	SingletonService<JSONtoWikiConverter>
 {
 
-	void doConversion(String baseURL) throws Exception;
+	void doConversion(String baseURL, String outputDir) throws Exception;
 }
