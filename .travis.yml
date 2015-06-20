@@ -1,5 +1,0 @@
-language: java
-
-install: mvn clean install
-
-branches: master
