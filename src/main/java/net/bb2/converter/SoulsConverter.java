@@ -68,21 +68,21 @@ public class SoulsConverter extends XLSWikiConverter {
 		final Map<String, String> lines = new HashMap<String, String>();
 
 		// Parse soul info
-		final String id = getField(json, "Id");
+		final String id = getTextField(json, "Id");
 		if (id.endsWith("2")) {
-			final String name = getField(json, "Name");
-			final String rarity = getField(json, "Rarity");
-			final String value = getField(json, "SellValue");
-			final String hp = getField(json, "Hp");
-			final String atk = getField(json, "Attack");
-			final String def = getField(json, "Defense");
-			final String wis = getField(json, "Wisdom");
-			final String race = WikiUtils.getRace(getField(json, "Race").toString());
-			final String charId = getField(json, "CharId");
+			final String name = getTextField(json, "Name");
+			final String rarity = getTextField(json, "Rarity");
+			final String value = getIntField(json, "SellValue");
+			final String hp = getIntField(json, "Hp");
+			final String atk = getIntField(json, "Attack");
+			final String def = getIntField(json, "Defense");
+			final String wis = getIntField(json, "Wisdom");
+			final String race = WikiUtils.getRace(getTextField(json, "Race").toString());
+			final String charId = getTextField(json, "CharId");
 			final String affinity =
-				WikiUtils.getAffinity(getField(json, "Affinity").toString());
+				WikiUtils.getAffinity(getTextField(json, "Affinity").toString());
 			final JSONObject charJson = getOtherJSON(charId, "Characters.json", "new/Characters.json");
-			final String baseChar = getField(charJson, "Name", "SecondaryTitle");
+			final String baseChar = getTextField(charJson, "Name", "SecondaryTitle");
 
 			// --- Build Souls Database ---
 			StringBuilder sb = new StringBuilder();

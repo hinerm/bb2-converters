@@ -66,11 +66,11 @@ public class ActiveSkillsConverter extends XLSWikiConverter {
 		final Map<String, String> lines = new HashMap<String, String>();
 
 		final StringBuilder sb = new StringBuilder();
-		append(sb, getField(json, "Id"));
-		append(sb, getField(json, "Name"));
-		append(sb, getField(json, "Desc"));
-		append(sb, getField(json, "NumTriggers"));
-		append(sb, getField(json, "CutInId"));
+		append(sb, getTextField(json, "Id"));
+		append(sb, getTextField(json, "Name"));
+		append(sb, getTextField(json, "Desc"));
+		append(sb, getTextField(json, "NumTriggers"));
+		append(sb, getTextField(json, "CutInId"));
 		// BuffIds is an array.. dictates the size of the other arrays
 		final int skillCount = json.getJSONArray("BuffIds").length();
 		for (int i = 0; i < skillCount; i++) {

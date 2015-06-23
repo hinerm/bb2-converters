@@ -60,11 +60,11 @@ public class LeaderSkillsConverter extends XLSWikiConverter {
 
 		final StringBuilder sb = new StringBuilder();
 
-		append(sb, getField(json, "Id"));
-		append(sb, getField(json, "Name"));
-		append(sb, getField(json, "Description"));
-		append(sb, getField(json, "BuffId"));
-		append(sb, getField(json, "Magnitude"));
+		append(sb, getTextField(json, "Id"));
+		append(sb, getTextField(json, "Name"));
+		append(sb, getTextField(json, "Description"));
+		append(sb, getTextField(json, "BuffId"));
+		append(sb, getTextField(json, "Magnitude"));
 
 		lines.put(LEADER, sb.toString());
 		return lines;

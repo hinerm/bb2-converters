@@ -63,10 +63,10 @@ public class SkillConverter extends XLSWikiConverter {
 		StringBuilder sb = new StringBuilder();
 
 		// --- Build Skill Pages ---
-		append(sb, "Category:" + getField(json, "Name"));
+		append(sb, "Category:" + getTextField(json, "Name"));
 		sb.append("{{Skills " +
-				"|skillid = " + getField(json, "Id") + " " +
-				"|skilltext = " + getField(json, "Desc") + " ");
+				"|skillid = " + getTextField(json, "Id") + " " +
+				"|skilltext = " + getTextField(json, "Desc") + " ");
 
 		// FIXME: not clear how to translate these to skills
 		// BuffId > Battle buff > Poison, damage, etc..

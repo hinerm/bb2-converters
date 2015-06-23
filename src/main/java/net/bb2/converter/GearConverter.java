@@ -60,14 +60,14 @@ public class GearConverter extends XLSWikiConverter {
 		final Map<String, String> lines = new HashMap<String, String>();
 
 		final StringBuilder sb = new StringBuilder();
-		append(sb, getField(json, "Id"));
-		append(sb, getField(json, "Name"));
-		append(sb, getField(json, "Rarity"));
-		append(sb, getField(json, "SellValue"));
-		append(sb, getField(json, "Hp"));
-		append(sb, getField(json, "Attack"));
-		append(sb, getField(json, "Defense"));
-		append(sb, getField(json, "Wisdom"));
+		append(sb, getTextField(json, "Id"));
+		append(sb, getTextField(json, "Name"));
+		append(sb, getTextField(json, "Rarity"));
+		append(sb, getIntField(json, "SellValue"));
+		append(sb, getIntField(json, "Hp"));
+		append(sb, getIntField(json, "Attack"));
+		append(sb, getIntField(json, "Defense"));
+		append(sb, getIntField(json, "Wisdom"));
 
 		lines.put(GEAR, sb.toString());
 		return lines;

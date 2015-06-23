@@ -73,52 +73,52 @@ public class CommanderConverter extends XLSWikiConverter {
 	private void parse(final JSONObject json, final Map<String, String> lines) {
 
 		// --- parse commander info ---
-		final String id = getField(json, "Id");
-		final String name = getField(json, "Name", "SecondaryTitle");
-		final String rarity = getField(json, "Rarity");
+		final String id = getTextField(json, "Id");
+		final String name = getTextField(json, "Name", "SecondaryTitle");
+		final String rarity = getTextField(json, "Rarity");
 		final String affinity =
 			WikiUtils.getAffinity(json.get("Affinity").toString());
 		final String race = WikiUtils.getRace(json.get("Race").toString());
-		final String activeSkill = getField(json, "ActiveSkillName");
-		final String leaderSkill = getField(json, "LeaderSkillName");
+		final String activeSkill = getTextField(json, "ActiveSkillName");
+		final String leaderSkill = getTextField(json, "LeaderSkillName");
 		final String skillStat =
 			WikiUtils.getSkillStat(json.get("SkillStat").toString());
-		final String skillSpeed = getField(json, "SkillSpeed");
+		final String skillSpeed = getTextField(json, "SkillSpeed");
 
 		String captures;
 		if (!json.has("captures") || json.getJSONArray("captures").length() == 0) captures =
 			"No";
 		else captures = "Yes";
 
-		final String minHp = getField(json, "MinHP");
-		final String minAtk = getField(json, "MinAttack");
-		final String minDef = getField(json, "MinDefense");
-		final String minWis = getField(json, "MinWisdom");
-		final String maxHp = getField(json, "MaxHP");
-		final String maxAtk = getField(json, "MaxAttack");
-		final String maxDef = getField(json, "MaxDefense");
-		final String maxWis = getField(json, "MaxWisdom");
-		final String evo = getField(json, "Evo");
+		final String minHp = getIntField(json, "MinHP");
+		final String minAtk = getIntField(json, "MinAttack");
+		final String minDef = getIntField(json, "MinDefense");
+		final String minWis = getIntField(json, "MinWisdom");
+		final String maxHp = getIntField(json, "MaxHP");
+		final String maxAtk = getIntField(json, "MaxAttack");
+		final String maxDef = getIntField(json, "MaxDefense");
+		final String maxWis = getIntField(json, "MaxWisdom");
+		final String evo = getTextField(json, "Evo");
 
 		String evoInto;
 		if (json.get("EvolvesInto").toString().equals("0")) evoInto = " ";
-		else evoInto = getField(json, "EvolvesInto");
+		else evoInto = getTextField(json, "EvolvesInto");
 
-		final String maxAsc = getField(json, "MaxAsc");
-		final String minMaxLvl = getField(json, "MinMaxLevel");
-		final String maxMaxLvl = getField(json, "MaxMaxLevel");
-		final String dupSoul = getField(json, "DupSoulId");
-		final String evoSoul = getField(json, "EvolveSoulId");
-		final String dismiss = getField(json, "DismissGold");
-		final String baseFriend = getField(json, "BaseFriendliness");
-		final String friendGrowth = getField(json, "FriendlinessGrowth");
-		final String maxFriend = getField(json, "MaxFriendliness");
-		final String desc = getField(json, "Description");
-		final String msgNew = getField(json, "MessageNew");
-		final String msgFail = getField(json, "MessageFail");
-		final String msgEvo = getField(json, "MessageEvo");
-		final String awaken = getField(json, "Awakening");
-		final String troopAsset = getField(json, "TroopAssetId");
+		final String maxAsc = getIntField(json, "MaxAsc");
+		final String minMaxLvl = getTextField(json, "MinMaxLevel");
+		final String maxMaxLvl = getTextField(json, "MaxMaxLevel");
+		final String dupSoul = getTextField(json, "DupSoulId");
+		final String evoSoul = getTextField(json, "EvolveSoulId");
+		final String dismiss = getIntField(json, "DismissGold");
+		final String baseFriend = getTextField(json, "BaseFriendliness");
+		final String friendGrowth = getTextField(json, "FriendlinessGrowth");
+		final String maxFriend = getTextField(json, "MaxFriendliness");
+		final String desc = getTextField(json, "Description");
+		final String msgNew = getTextField(json, "MessageNew");
+		final String msgFail = getTextField(json, "MessageFail");
+		final String msgEvo = getTextField(json, "MessageEvo");
+		final String awaken = getTextField(json, "Awakening");
+		final String troopAsset = getTextField(json, "TroopAssetId");
 		final String zeroMaxHp = zeroMax(minHp, maxHp, minMaxLvl, maxMaxLvl);
 		final String zeroMaxAtk = zeroMax(minAtk, maxAtk, minMaxLvl, maxMaxLvl);
 		final String zeroMaxDef = zeroMax(minDef, maxDef, minMaxLvl, maxMaxLvl);
@@ -227,9 +227,12 @@ public class CommanderConverter extends XLSWikiConverter {
 		lines.put(COMMANDER_PAGES, sb.toString());
 	}
 
-	private String zeroMax(final String minStat, final String maxStat,
+	private String zeroMax(String minStat, String maxStat,
 		final String zeroAscLvl, final String maxLvl)
 	{
+		minStat = minStat.replace(",", "");
+		maxStat = maxStat.replace(",", "");
+
 		return String.valueOf((int) Math.floor(Double.valueOf(minStat) +
 			(Double.valueOf(maxStat) - Double.valueOf(minStat)) /
 			(Double.valueOf(maxLvl) - 1) * (Double.valueOf(zeroAscLvl) - 1)));

@@ -36,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -59,6 +60,8 @@ public abstract class AbstractJSONtoWikiConverter implements
 	private Map<String, JSONObject> jsonObjects = new HashMap<String, JSONObject>();
 
 	private String baseURL = "";
+	
+	private DecimalFormat intFormatter = new DecimalFormat("#,###");
 
 	@Override
 	public void preinit(final String outputDir) {
@@ -152,7 +155,13 @@ public abstract class AbstractJSONtoWikiConverter implements
 		sb.append(DELIM);
 	}
 
-	protected String getField(final JSONObject json, final String... ids) {
+	protected String getIntField(final JSONObject json, final String... ids) {
+		String field = getTextField(json, ids);
+		int value = Integer.parseInt(field);
+		return intFormatter.format(value);
+	}
+	
+	protected String getTextField(final JSONObject json, final String... ids) {
 		String s;
 		if (ids.length == 0 || !json.has(ids[0]) ||
 			json.get(ids[0]).toString().equals("null"))
