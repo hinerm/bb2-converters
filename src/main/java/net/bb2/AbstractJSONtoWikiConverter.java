@@ -33,7 +33,10 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -53,28 +56,27 @@ public abstract class AbstractJSONtoWikiConverter implements
 
 	private Set<String> processed = new HashSet<String>();
 
-	@Override
-	public void preinit(final String outputDir) {  }
+	private Map<String, JSONObject> jsonObjects = new HashMap<String, JSONObject>();
+
+	private String baseURL = "";
 
 	@Override
-	public void run(final String baseURL, final String outputDir) throws Exception {
+	public void preinit(final String outputDir) {
+		// Override to do any preinit actions, such as creating directories
+	}
+
+	@Override
+	public void run(final String URL, final String outputDir) throws Exception {
+		baseURL = URL;
 		init();
 
 		int row = 1;
 
-		for (final String url : getURLs()) {
-			String page = null;
-			try {
-				page = Resources.toString(new URL(baseURL + url), Charsets.UTF_8);
-			}
-			catch (final FileNotFoundException e) {
-				// if URL not found, log and continue
-				logService.error("WARNING: URL not found: " + url);
-				logService.error(e);
-				continue;
-			}
+		for (final String urlDir : getURLs()) {
+			final String url = baseURL + urlDir;
 
-			final JSONObject obj = new JSONObject(page);
+			final JSONObject obj = getObj(url);
+			if (obj == null) continue;
 			for (final String id : JSONObject.getNames(obj)) {
 				final JSONObject jsonElement = obj.getJSONObject(id);
 				if (!processed.contains(getKey(jsonElement))) {
@@ -88,6 +90,26 @@ public abstract class AbstractJSONtoWikiConverter implements
 		cleanup();
 	}
 
+	private JSONObject getObj(final String url) throws MalformedURLException,
+		IOException
+	{
+		JSONObject obj = jsonObjects.get(url);
+		if (obj == null) {
+			String page = null;
+			try {
+				page = Resources.toString(new URL(url), Charsets.UTF_8);
+				obj = new JSONObject(page);
+				jsonObjects.put(url, obj);
+			}
+			catch (final FileNotFoundException e) {
+				// if URL not found, log and continue
+				logService.error("WARNING: URL not found: " + url);
+				logService.error(e);
+			}
+		}
+		return obj;
+	}
+
 	protected abstract void init() throws Exception;
 
 	protected abstract void cleanup() throws Exception;
@@ -96,8 +118,8 @@ public abstract class AbstractJSONtoWikiConverter implements
 		throws Exception;
 
 	/**
-	 * NB: Assumes the unique identifying string is "Id".
-	 * Override this method if that is not true.
+	 * NB: Assumes the unique identifying string is "Id". Override this method if
+	 * that is not true.
 	 *
 	 * @return The unique identifier for the given JSON.
 	 */
@@ -105,9 +127,24 @@ public abstract class AbstractJSONtoWikiConverter implements
 		return json.get("Id").toString();
 	}
 
-	protected String getJSON(final String key, final String url) {
-		//FIXME read the JSON on the target page and hten lookup the item with the specified key..
-		return null;
+	protected JSONObject getOtherJSON(final String key, final String... urls)
+	{
+		JSONObject val = null;
+
+		int i = 0;
+
+		while (i < urls.length && val == null) {
+			final String url = baseURL + urls[i];
+			try {
+				final JSONObject obj = getObj(url);
+				if (obj.has(key)) val = obj.getJSONObject(key);
+			}
+			catch (IOException exc) {
+				logService.error(exc);
+			}
+			i++;
+		}
+		return val;
 	}
 
 	protected void append(final StringBuilder sb, final String entry) {

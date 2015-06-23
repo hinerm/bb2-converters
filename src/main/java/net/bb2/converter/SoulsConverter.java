@@ -78,8 +78,11 @@ public class SoulsConverter extends XLSWikiConverter {
 			final String def = getField(json, "Defense");
 			final String wis = getField(json, "Wisdom");
 			final String race = WikiUtils.getRace(getField(json, "Race").toString());
+			final String charId = getField(json, "CharId");
 			final String affinity =
 				WikiUtils.getAffinity(getField(json, "Affinity").toString());
+			final JSONObject charJson = getOtherJSON(charId, "Characters.json", "new/Characters.json");
+			final String baseChar = getField(charJson, "Name", "SecondaryTitle");
 
 			// --- Build Souls Database ---
 			StringBuilder sb = new StringBuilder();
@@ -114,7 +117,7 @@ public class SoulsConverter extends XLSWikiConverter {
 			sb.append("<div style=\"float:left;\">{{Souls" +
 					"| name = " + name +
 					"| image =" +
-					"|caption = Achieved from " + (name.contains("(L)") ? "absolving" : "evolving") + " [[ ]]" + // FIXME put in page link
+					"|caption = Achieved from " + (name.contains("(L)") ? "absolving" : "evolving") + " [[" + baseChar + "]]" +
 					"|HP = " + hp +
 					"|DEF = " + def +
 					"|ATK = " + atk +
