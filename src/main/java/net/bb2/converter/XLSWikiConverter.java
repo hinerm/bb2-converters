@@ -42,6 +42,9 @@ import jxl.format.BorderLineStyle;
 import jxl.format.CellFormat;
 import jxl.read.biff.BiffException;
 import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.NumberFormats;
+import jxl.write.WritableCell;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
@@ -122,7 +125,7 @@ public abstract class XLSWikiConverter extends AbstractJSONtoWikiConverter {
 		throws RowsExceededException, WriteException
 	{
 		final WritableFont normalFont = new WritableFont(WritableFont.ARIAL, 10);
-		final WritableCellFormat format = new WritableCellFormat(normalFont);
+		final WritableCellFormat format = new WritableCellFormat(normalFont, NumberFormats.THOUSANDS_INTEGER);
 		write(sheetToRowMap, row, format);
 	}
 
@@ -135,7 +138,14 @@ public abstract class XLSWikiConverter extends AbstractJSONtoWikiConverter {
 				new StringTokenizer(sheetToRowMap.get(sheetName), DELIM);
 			int column = 0;
 			while (stk.hasMoreTokens()) {
-				final Label cell = new Label(column, row, stk.nextToken(), format);
+				WritableCell cell = null;
+				String value = stk.nextToken();
+				try {
+					cell = new Number(column, row, Double.parseDouble(value), format);
+				}
+				catch (Exception exc) {
+					cell = new Label(column, row, value, format);
+				}
 				column++;
 				sheet.addCell(cell);
 			}
