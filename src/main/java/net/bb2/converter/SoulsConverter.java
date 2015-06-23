@@ -105,8 +105,7 @@ public class SoulsConverter extends XLSWikiConverter {
 			// {{SoulTableRow|Andarion's Soul
 			// (L)|4|Cavalry|Darklander|342|132|334|99|907}}
 			sb.append("{{SoulTableRow|" + name + "|" + rarity + "|" + affinity + "|" +
-				race + "|" + hp + "|" + atk + "|" + def + "|" + wis + "|" + stats[0] +
-				"}}");
+				race + "|" + hp + "|" + atk + "|" + def + "|" + wis + "|}}");
 			lines.put(SOUL_TABLE, sb.toString());
 
 			// -- Build Soul Page code --
