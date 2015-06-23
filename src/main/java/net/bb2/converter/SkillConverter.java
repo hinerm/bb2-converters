@@ -96,9 +96,9 @@ public class SkillConverter extends XLSWikiConverter {
 		return lines;
 	}
 
-private String getVal(final String s) {
-	final Double i = Double.parseDouble(s);
-	return String.valueOf((int)Math.abs(i));
-}
+	private String getVal(final String s) {
+		final Double i = Double.parseDouble(s);
+		return String.valueOf((int) Math.abs(i));
+	}
 
 }

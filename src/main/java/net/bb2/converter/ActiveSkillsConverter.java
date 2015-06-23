@@ -90,5 +90,4 @@ public class ActiveSkillsConverter extends XLSWikiConverter {
 		lines.put(ACTIVE, sb.toString());
 		return lines;
 	}
-
 }

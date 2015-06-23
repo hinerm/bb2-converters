@@ -34,7 +34,9 @@ import com.google.common.io.Resources;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONObject;
 import org.scijava.log.LogService;
@@ -49,8 +51,10 @@ public abstract class AbstractJSONtoWikiConverter implements
 	@Parameter
 	private LogService logService;
 
+	private Set<String> processed = new HashSet<String>();
+
 	@Override
-	public void preinit(final String outputDir) {	}
+	public void preinit(final String outputDir) {  }
 
 	@Override
 	public void run(final String baseURL, final String outputDir) throws Exception {
@@ -72,8 +76,12 @@ public abstract class AbstractJSONtoWikiConverter implements
 
 			final JSONObject obj = new JSONObject(page);
 			for (final String id : JSONObject.getNames(obj)) {
-				final Map<String, String> lines = convert(obj.getJSONObject(id));
-				if (lines.keySet().size() > 0) write(lines, row++);
+				final JSONObject jsonElement = obj.getJSONObject(id);
+				if (!processed.contains(getKey(jsonElement))) {
+					final Map<String, String> lines = convert(jsonElement);
+					if (lines.keySet().size() > 0) write(lines, row++);
+					processed.add(getKey(jsonElement));
+				}
 			}
 		}
 
@@ -86,6 +94,21 @@ public abstract class AbstractJSONtoWikiConverter implements
 
 	protected abstract void write(Map<String, String> lines, int row)
 		throws Exception;
+
+	/**
+	 * NB: Assumes the unique identifying string is "Id".
+	 * Override this method if that is not true.
+	 *
+	 * @return The unique identifier for the given JSON.
+	 */
+	protected String getKey(final JSONObject json) {
+		return json.get("Id").toString();
+	}
+
+	protected String getJSON(final String key, final String url) {
+		//FIXME read the JSON on the target page and hten lookup the item with the specified key..
+		return null;
+	}
 
 	protected void append(final StringBuilder sb, final String entry) {
 		sb.append(entry);

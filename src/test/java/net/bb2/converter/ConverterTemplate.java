@@ -78,4 +78,15 @@ public class ConverterTemplate extends XLSWikiConverter {
 
 		return lines;
 	}
+
+//	@Override
+//	protected String getKey(final JSONObject json) {
+		// TODO
+		// Each JSON object has a unique identifier (typically a field like
+		// "id"). You just need to look up the value of that field for the
+		// given object, and return it.
+		// BY DEFAULT - a key of "Id" is assumed. If that is not true for your
+		// converter, override this method.
+//		return null;
+//	}
 }

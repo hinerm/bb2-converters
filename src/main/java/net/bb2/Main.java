@@ -47,7 +47,7 @@ public class Main {
 
 	public static void main(final String... args) throws Exception {
 		final String id = args.length > 0 ? args[0] : "4219";
-		final String outputDir = args.length > 1 ? args[1] : "";
+		final String outputDir = args.length > 1 ? args[1] : ".";
 		final Context c = new Context();
 		final JSONtoWikiService jws = c.service(JSONtoWikiService.class);
 		try {
@@ -55,7 +55,7 @@ public class Main {
 		}
 		finally {
 			c.dispose();
-			stage.close();
+			if (stage != null) stage.close();
 		}
 	}
 }
